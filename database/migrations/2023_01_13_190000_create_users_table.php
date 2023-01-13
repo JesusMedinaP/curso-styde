@@ -15,9 +15,15 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id'); //Integer Unsigned - AutoIncrement
+
+            $table->unsignedInteger('profession_id')->nullable();
+            $table->foreign('profession_id')->references('id')->on('professions');
+
+
             $table->string('name'); //Varchar
             $table->string('email')->unique(); //Varchar - Unique
             $table->string('password');
+
             $table->rememberToken();
             $table->timestamps();
         });
