@@ -32,21 +32,35 @@ class UsersModuleTest extends TestCase
     }
 
 
-   // /** @test */
-/*
+    /** @test */
+
     function it_shows_a_default_message_if_list_is_empty()
     {
         $this->get('/usuarios')
             ->assertStatus(200)
             ->assertSee('Listado de Usuarios vacio');
     }
-   */
+
     /** @test */
 
-    function it_loads_the_users_details_page(){
-        $this->get('/usuarios/5')
+    function it_displays_the_users_details(){
+
+        $user = factory(User::class)->create([
+            'name' => 'Geralt de Rivia',
+        ]);
+
+        $this->get('/usuarios/'.$user->id)
             ->assertStatus(200)
-            ->assertSee('Usuario #5');
+            ->assertSee('Geralt de Rivia');
+    }
+
+    /** @test */
+
+    function it_displays_a_404_error_if_the_user_is_not_found()
+    {
+        $this->get('usuarios/999')
+            ->assertStatus(404)
+            ->assertSee('Página no encontrada');
     }
 
     /** @test */

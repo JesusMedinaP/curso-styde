@@ -23,7 +23,11 @@ class UserController extends Controller
 
     public function show($id)
     {
-        return view('users.show', compact('id'));
+        $user = User::find($id);
+        if($user == null){
+            return response()->view('errors.404',[],404);
+        }
+        return view('users.show', compact('user'));
 
     }
 

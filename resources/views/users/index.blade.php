@@ -2,18 +2,17 @@
 
 @section('content')
     <h1>{{ $title }}</h1>
-    <hr>
+
     <ul>
-        @empty($users)
+            @forelse($users as $user)
+                <li>{{ $user->name }}, ({{ $user->email }})</li>
+                <a href="{{ route('users.show', ['id' => $user->id]) }}">Ver detalles</a>
+            @empty
             Listado de Usuarios vacio
-        @else
-            @foreach ($users as $user)
-                <li>{{ $user->name }} {{ $user->email }}</li>
-            @endforeach
-        @endempty
+            @endforelse
     </ul>
 @endsection
 
 @section('siderbar')
-    <h2>Barra lateral Personalizada</h2>
+    @parent
 @endsection
