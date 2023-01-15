@@ -34,4 +34,9 @@ class UserController extends Controller
     {
         return 'Crear nuevo usuario';
     }
+
+    public function store()
+    {
+        return view('users.create');
+    }
 }
