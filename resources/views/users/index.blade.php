@@ -5,10 +5,10 @@
     <hr>
     <ul>
         @empty($users)
-            <p>No se ha registrado ningún usuario</p>
+            Listado de Usuarios vacio
         @else
             @foreach ($users as $user)
-                <li>{{ $user }}</li>
+                <li>{{ $user->name }} {{ $user->email }}</li>
             @endforeach
         @endempty
     </ul>

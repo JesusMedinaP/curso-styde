@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class UserController extends Controller
 {
     public function index()
     {
-        if(request()->has('empty')){
-            $users = [];
-        }else {
-            $users = [
-                'Joel', 'Ellie', 'Tess', 'Tommy', 'Bill'
-            ];
-        }
+        // Constructor de consultas $users = DB::table('users')->get();
 
+        // Utilizando Eloquent
+
+        $users = User::all();
         $title = 'Listado de Usuarios';
 
         return view('users.index', compact('title', 'users'));
