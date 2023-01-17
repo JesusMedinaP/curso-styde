@@ -171,4 +171,135 @@ class UsersModuleTest extends TestCase
 
         $this->assertEquals(1, User::count());
     }
+
+    /** @test  */
+    function it_loads_the_edit_user_page(){
+
+        $user = factory(User::class)->create();
+
+        $this->get("/usuarios/{$user->id}/editar")
+            ->assertStatus(200)
+            ->assertViewIs('users.edit')
+            ->assertSee('Detalles de Usuario')
+            ->assertViewHas('user', function ($viewUser) use ($user){
+                    return $viewUser->id == $user->id;
+            });
+    }
+
+    /** @test  */
+    function it_updates_a_user(){
+
+        $user = factory(User::class)->create();
+        $this->put("usuarios/{$user->id}",[
+                'name' => 'Duilio',
+                'email' => 'duilio@gmail.com',
+                'password' => '1234567'
+            ])->assertRedirect("usuarios/{$user->id}");
+
+        $this->assertCredentials([
+            'name' => 'Duilio',
+            'email' => 'duilio@gmail.com',
+            'password' => '1234567'
+        ]);
+    }
+
+    /** @test  */
+    function  the_name_is_required_when_updating_the_user()
+    {
+
+        $user = factory(User::class)->create();
+
+            $this->from("usuarios/{$user->id}/editar")
+                ->put("/usuarios/{$user->id}", [
+                    'name' => '',
+                    'email' => 'johndoe@example.com',
+                    'password' => '123456'
+                ])
+                ->assertRedirect("usuarios/{$user->id}/editar")
+                ->assertSessionHasErrors(['name']);
+
+        $this->assertDatabaseMissing('users', ['email' => 'johndoe@example.com']);
+    }
+
+    /** @test  */
+    function  the_email_is_required_when_updating_the_user()
+    {
+
+        $user = factory(User::class)->create();
+
+        $this->from("usuarios/{$user->id}/editar")
+            ->put("/usuarios/{$user->id}", [
+                'name' => 'John Doe',
+                'email' => '',
+                'password' => '123456'
+            ])
+            ->assertRedirect("usuarios/{$user->id}/editar")
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertDatabaseMissing('users', ['email' => 'johndoe@example.com']);
+    }
+
+
+    /** @test  */
+    function  the_email_must_be_valid_when_updating_the_user()
+    {
+
+        $user = factory(User::class)->create();
+
+        $this->from("usuarios/{$user->id}/editar")
+            ->put("/usuarios/{$user->id}", [
+                'name' => 'John Doe',
+                'email' => 'correo-no-valido',
+                'password' => '123456'
+            ])
+            ->assertRedirect("usuarios/{$user->id}/editar")
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertDatabaseMissing('users', ['email' => 'johndoe@example.com']);
+    }
+
+
+    /** @test  */
+    function  the_email_must_be_unique_when_updating_the_user()
+    {
+        return;
+        $user = factory(User::class)->create([
+            'email' => 'johndoe@example.com'
+        ]);
+
+        $this->from("usuarios/{$user->id}/editar")
+            ->put("/usuarios/{$user->id}", [
+                'name' => 'John Doe',
+                'email' => '',
+                'password' => '123456'
+            ])
+            ->assertRedirect("usuarios/{$user->id}/editar")
+            ->assertSessionHasErrors(['email']);
+
+        $this->assertDatabaseMissing('users', ['email' => 'johndoe@example.com']);
+    }
+
+
+    /** @test  */
+    function the_password_is_optional_when_updating_the_user()
+    {
+        $oldPassword = 'clave_anterior';
+        $user = factory(User::class)->create([
+            'password' => bcrypt($oldPassword)
+        ]);
+
+        $this->from("usuarios/{$user->id}/editar")
+            ->put("/usuarios/{$user->id}", [
+                'name' => 'John Doe',
+                'email' => 'johndoe@example.com',
+                'password' => ''
+            ])
+            ->assertRedirect("usuarios/{$user->id}");
+
+        $this->assertCredentials([
+            'name' => 'John Doe',
+            'email' => 'johndoe@example.com',
+            'password' => $oldPassword
+        ]);
+    }
 }

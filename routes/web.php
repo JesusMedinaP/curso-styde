@@ -28,3 +28,8 @@ Route::get('usuarios/nuevo', 'UserController@create')
 
 Route::post('/usuarios', 'UserController@store')
     ->name('users.store');
+
+Route::get('/usuarios/{user}/editar', 'UserController@edit')
+    ->name('users.edit');
+
+Route::put('/usuarios/{user}', 'UserController@update');
