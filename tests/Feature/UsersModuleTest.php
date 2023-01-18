@@ -262,7 +262,9 @@ class UsersModuleTest extends TestCase
     /** @test  */
     function  the_email_must_be_unique_when_updating_the_user()
     {
-        return;
+        $randomUser = factory(User::class)->create([
+            'email' => 'existing-email@example.com'
+        ]);
         $user = factory(User::class)->create([
             'email' => 'johndoe@example.com'
         ]);
@@ -270,13 +272,13 @@ class UsersModuleTest extends TestCase
         $this->from("usuarios/{$user->id}/editar")
             ->put("/usuarios/{$user->id}", [
                 'name' => 'John Doe',
-                'email' => '',
+                'email' => 'existing-email@example.com',
                 'password' => '123456'
             ])
             ->assertRedirect("usuarios/{$user->id}/editar")
             ->assertSessionHasErrors(['email']);
 
-        $this->assertDatabaseMissing('users', ['email' => 'johndoe@example.com']);
+        //
     }
 
 
@@ -300,6 +302,43 @@ class UsersModuleTest extends TestCase
             'name' => 'John Doe',
             'email' => 'johndoe@example.com',
             'password' => $oldPassword
+        ]);
+    }
+
+    /** @test  */
+    function the_email_can_stay_the_same_when_updating_user()
+    {
+
+        $user = factory(User::class)->create([
+            'email' => 'johndoe@example.com'
+        ]);
+
+        $this->from("usuarios/{$user->id}/editar")
+            ->put("/usuarios/{$user->id}", [
+                'name' => 'John Doe',
+                'email' => 'johndoe@example.com',
+                'password' => '1234567'
+            ])
+            ->assertRedirect("usuarios/{$user->id}");
+
+        $this->assertDatabaseHas('users',[
+            'name' => 'John Doe',
+            'email' => 'johndoe@example.com',
+        ]);
+    }
+
+    /** @test  */
+
+    function it_deletes_a_user()
+    {
+        $user = factory(User::class)->create();
+
+        $this->delete("usuarios/{$user->id}")
+            ->assertRedirect('usuarios');
+
+
+        $this->assertDatabaseMissing('users', [
+            'id' => $user->id
         ]);
     }
 }
