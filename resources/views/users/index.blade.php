@@ -11,7 +11,7 @@
     </div>
 
     @if($users->isNotEmpty())
-    <table class="table">
+    <table class="table m-auto">
         <thead class="table-dark">
         <tr>
             <th scope="col">#</th>
