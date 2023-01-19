@@ -15,7 +15,7 @@
                 </ul>
             </div>
         @endif
-            <form method="POST" action="{{url("usuarios/$user-id")}}">
+            <form method="POST" action="{{url("usuarios/$user->id")}}">
                 {{ method_field('PUT') }}
                 {{ csrf_field() }}
              <div class="mb-3 m-lg-3">
@@ -29,6 +29,14 @@
              <div class="mb-3 m-lg-3" class="form-label">
                  <label for="password">Contraseña:</label>
                  <input type="password" class="form-control" name="password" id="password" placeholder="Mayor a 6 caracteres">
+             </div>
+             <div class="mb-3 m-lg-3">
+                 <label for="bio" class="form-label">Bio:</label>
+                 <textarea type="text" class="form-control" name="bio" id="bio" placeholder="Escribe algo sobre ti"></textarea>
+             </div>
+             <div class="mb-3 m-lg-3">
+                 <label for="twitter" class="form-label">Twitter:</label>
+                 <input type="url" class="form-control" name="twitter" id="twitter" placeholder="https://twitter.com/" value="">
              </div>
              <button type="submit" class="btn btn-primary m-lg-3">Actualizar Usuario</button>
              <a href="{{route('users.index')}}" class="btn btn-light m-lg-3">Volver al listado de usuarios</a>

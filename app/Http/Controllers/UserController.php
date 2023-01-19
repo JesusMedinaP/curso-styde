@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
-
+use App\UserProfiles;
+use App\Profession;
 
 class UserController extends Controller
 {
@@ -33,20 +35,15 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('users.create');
+
+        $professions = Profession::orderBy('title', 'ASC')->get();
+
+        return view('users.create', compact('professions'));
     }
 
-    public function store()
+    public function store(CreateUserRequest $request)
     {
-        $data = request()->validate([
-            'name' => 'required',
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => 'required'
-        ], [
-            'name.required' => 'El campo nombre es obligatorio',
-            'email.required' => 'El campo email es obligatorio',
-            'password.required' => 'El campo contraseña es obligatorio',
-        ]);
+        $request->createUser();
 
         /// Forma antigua sin gestor de excepciones/errores de Laravel
 
@@ -55,12 +52,6 @@ class UserController extends Controller
     //            'name' => 'The name field is required',
     //        ]);
     //    }
-
-        User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
 
         return redirect()->route('users.index');
     }
@@ -77,7 +68,9 @@ class UserController extends Controller
             'email' =>
                 ['required','email', Rule::unique('users')->ignore($user->id)
                 ],
-            'password' => ''
+            'password' => '',
+            'bio' => 'nullable',
+            'twitter' => ['nullable', 'url'],
         ]);
         if($data['password'] != null)
         {

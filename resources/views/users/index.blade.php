@@ -2,7 +2,7 @@
 
 @section('content')
     <br>
-
+    <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-end">
         <h1 class="pb-3">{{ $title }}</h1>
         <p>
@@ -45,5 +45,6 @@
     @else
         <p>No hay usuarios registrados</p>
     @endif
+    </div>
 @endsection
 

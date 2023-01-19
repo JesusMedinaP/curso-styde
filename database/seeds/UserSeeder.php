@@ -27,19 +27,22 @@ class UserSeeder extends Seeder
       //         ->value('id')
       // ]);
 
-        factory(User::class)->create([
+        $user = factory(User::class)->create([
             'name' => 'John Doe',
             'email' => 'johndoe@example.com',
             'password' => bcrypt('laravel'),
-            'profession_id' => $professionId,
             'is_admin' => true,
         ]);
-
-        factory(User::class)->create([
+        $user->profile()->create([
+            'bio' => 'Programador Web',
             'profession_id' => $professionId,
         ]);
 
-        factory(User::class,48)->create();
+        factory(User::class,29)->create()->each(function ($user){
+            $user->profile()->create(
+                factory(\App\UserProfiles::class)->raw()
+            );
+        });
 
         //User::create([
         //    'name' => 'Geralt de Rivia',

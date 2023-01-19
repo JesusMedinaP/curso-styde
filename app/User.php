@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -34,6 +35,26 @@ class User extends Authenticatable
     public function profession() //profession_id
     {
         return $this->belongsTo(Profession::class);
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfiles::class);
+    }
+
+    public function updateUser($data)
+    {
+        DB::transaction(function () use ($data){
+            $user = ([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+            ]);
+            $user->profile->update([
+                'bio' => $data['bio'],
+                'twitter' => $data['twitter'],
+            ]);
+        });
     }
 
     public function isAdmin()

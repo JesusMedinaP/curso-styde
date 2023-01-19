@@ -30,6 +30,28 @@
                             <label for="password">Contraseña:</label>
                             <input type="password" class="form-control" name="password" id="password" placeholder="Mayor a 6 caracteres">
                         </div>
+                    <div class="mb-3 m-lg-3">
+                        <label for="bio" class="form-label">Bio:</label>
+                        <textarea type="text" class="form-control" name="bio" id="bio" placeholder="Escribe algo sobre ti">{{old('bio')}}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profession_id">Profesión</label>
+                        <select name="profession_id" id="profession_id" class="form-control">
+                            <option value="">Selecciona una profesión</option>
+                            @foreach($professions as $profession)
+                            <option value="{{$profession->id}}"{{old('profession_id') == $profession->id ? ' selected' : ''}}>
+                                {{$profession->title}}
+                            </option>
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                    <div class="mb-3 m-lg-3">
+                        <label for="twitter" class="form-label">Twitter:</label>
+                        <input type="url" class="form-control" name="twitter" id="twitter" placeholder="https://twitter.com/" value="{{old('twitter')}}">
+                    </div>
                         <button type="submit" class="btn btn-primary m-lg-3">Crear Usuario</button>
                         <a href="{{route('users.index')}}" class="btn btn-light m-lg-3">Volver al listado de usuarios</a>
                 </form>
