@@ -29,7 +29,7 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'is_admin' => 'boolean',
+        
     ];
 
     public function profession() //profession_id
@@ -64,6 +64,6 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->is_admin;
+        return $this->role === 'admin';
     }
 }

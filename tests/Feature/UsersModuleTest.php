@@ -105,6 +105,7 @@ class UsersModuleTest extends TestCase
             'name' => 'John Doe',
             'email' => 'johndoe@example.com',
             'password' => '123456',
+            'role' => 'user',
 
         ]);
         $user = User::where('email', 'johndoe@example.com')->first();
@@ -146,6 +147,34 @@ class UsersModuleTest extends TestCase
             'user_id' => User::where('email', 'johndoe@example.com')->first()->id,
         ]);
     }
+
+    /** @test  */
+
+    function the_role_field_is_optional(){
+
+
+        $this->post('usuarios/', $this->getValidData([
+            'role' => null
+        ]))->assertRedirect('usuarios');
+
+        $this->assertDatabaseHas('users',[
+            'email' => 'johndoe@example.com',
+            'role' => 'user',
+        ]);
+    }
+
+
+    /** @test  */
+
+    function the_role_field_must_be_valid(){
+
+        $this->post('usuarios/', $this->getValidData([
+            'role' => 'invalid-role',
+        ]))->assertSessionHasErrors('role');
+
+        $this->assertEquals(0, User::count());
+    }
+
 
     /** @test  */
 
@@ -478,6 +507,7 @@ class UsersModuleTest extends TestCase
             'profession_id' => $this->profession->id,
             'bio' => 'Programador de Laravel',
             'twitter' => 'https://twitter.com/johndoe',
+            'role' => 'user',
         ], $custom));
     }
 }
