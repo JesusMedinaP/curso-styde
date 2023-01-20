@@ -44,16 +44,30 @@
                                 {{$profession->title}}
                             </option>
                             @endforeach
-
                         </select>
                     </div>
-
                     <div class="mb-3 m-lg-3">
                         <label for="twitter" class="form-label">Twitter:</label>
                         <input type="url" class="form-control" name="twitter" id="twitter" placeholder="https://twitter.com/" value="{{old('twitter')}}">
                     </div>
+
+                    <h5>Habilidades</h5>
+                    @foreach($skills as $skill)
+                        <div class="form-check form-check-inline">
+                            <input name="skills[{{$skill->id}}]"
+                                   class="form-check-input"
+                                   type="checkbox"
+                                   id="skill_{{$skill->id}}"
+                                   value="{{$skill->id}}"
+                                    {{ old("skills.$skill->id") ? 'checked' : ''}}>
+                            <label class="form-check-label" for="skill_{{$skill->id}}">{{$skill->name}}</label>
+                        </div>
+                    @endforeach
+
+                    <div class="form-group mt-3">
                         <button type="submit" class="btn btn-primary m-lg-3">Crear Usuario</button>
                         <a href="{{route('users.index')}}" class="btn btn-light m-lg-3">Volver al listado de usuarios</a>
+                    </div>
                 </form>
          </div>
 </div>
