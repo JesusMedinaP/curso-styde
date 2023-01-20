@@ -35,7 +35,9 @@ class CreateUserRequest extends FormRequest
             'profession_id' => [
                 'nullable',
                 Rule::exists('professions', 'id')->where('selectable', true),
-            ]
+            ],
+            'skills' => ['array',
+                Rule::exists('skills', 'id')],
         ];
     }
     public function messages()
@@ -63,7 +65,10 @@ class CreateUserRequest extends FormRequest
                 'twitter' => $data['twitter'] ?? null,
                 'profession_id' => $data['profession_id'] ?? null,
             ]);
+            $user->skills()->attach($data['skills'] ?? []);
         });
+
+
         //Otra forma de solucionar el problema de que twitter sea
         //null es accediendo directamente con $this->twitter
         //ya que el objeto request lo permite
