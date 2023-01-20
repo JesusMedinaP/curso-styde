@@ -13,7 +13,7 @@
 
 
 Route::get('/', function () {
-    return 'Home';
+    return 'Laravel';
 });
 
 Route::get('/usuarios','UserController@index')
