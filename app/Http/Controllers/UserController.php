@@ -68,9 +68,14 @@ class UserController extends Controller
                 ['required','email', Rule::unique('users')->ignore($user->id)
                 ],
             'password' => '',
-            'bio' => 'nullable',
-            'twitter' => ['nullable', 'url'],
+            'role' => '',
+            'bio' => '',
+            'profession_id' => '',
+            'twitter' => '',
+            'skills' => '',
+
         ]);
+
         if($data['password'] != null)
         {
             $data['password'] = bcrypt(($data['password']));
@@ -78,7 +83,14 @@ class UserController extends Controller
             unset($data['password']);
         }
 
-        $user->update($data);
+        $user->fill($data);
+        $user->role = $data['role'];
+        $user->save();
+
+        $user->profile->update($data);
+
+        $user->skills()->sync($data['skills'] ?? []);
+
         return redirect()->route('users.show', ['user' => $user]);
     }
 
