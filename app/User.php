@@ -39,7 +39,7 @@ class User extends Authenticatable
 
     public function profile()
     {
-        return $this->hasOne(UserProfiles::class);
+        return $this->hasOne(UserProfiles::class)->withDefault();
     }
 
     public function skills()
