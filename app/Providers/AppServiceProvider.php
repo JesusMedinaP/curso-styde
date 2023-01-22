@@ -16,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::withoutDoubleEncoding();
+        Blade::component('shared._card', 'card');
     }
 
     /**
