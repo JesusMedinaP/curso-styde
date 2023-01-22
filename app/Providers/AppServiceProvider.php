@@ -20,12 +20,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::withoutDoubleEncoding();
         Blade::component('shared._card', 'card');
-        View::composer(['users.create', 'users.edit'], function ($view){
-            $professions = Profession::orderBy('title', 'ASC')->get();
-            $skills = Skill::orderBy('name', 'ASC')->get();
-            $roles = trans('users.roles');
 
-            $view->with(compact('professions', 'skills', 'roles'));
+        Blade::directive('render', function ($expression){
+            $parts = explode(',', $expression,2 );
+            $component = $parts[0];
+            $args = trim($parts[1] ?? '[]');
+
+            return "<?php echo app('App\Http\ViewComponents\\\\'.$component, $args)->toHtml()?>";
         });
     }
 
