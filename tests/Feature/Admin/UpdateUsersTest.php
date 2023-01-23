@@ -40,7 +40,7 @@ class UpdateUsersTest extends TestCase
 
     /** @test  */
     function it_updates_a_user(){
-
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
 
         $oldProfession = factory(Profession::class)->create();
@@ -183,6 +183,7 @@ class UpdateUsersTest extends TestCase
     /** @test  */
     function the_password_is_optional()
     {
+        $this->withExceptionHandling();
         $oldPassword = 'clave_anterior';
         $user = factory(User::class)->create([
             'password' => bcrypt($oldPassword)
@@ -222,6 +223,22 @@ class UpdateUsersTest extends TestCase
             'name' => 'John Doe',
             'email' => 'johndoe@example.com',
         ]);
+    }
+
+    /** @test  */
+    function  the_role_is_required()
+    {
+        $this->withExceptionHandling();
+        $user = factory(User::class)->create();
+
+        $this->from("usuarios/{$user->id}/editar")
+            ->put("/usuarios/{$user->id}", $this->withData([
+                'role' => ''
+            ]))
+            ->assertRedirect("usuarios/{$user->id}/editar")
+            ->assertSessionHasErrors(['role']);
+
+        $this->assertDatabaseMissing('users', ['email' => 'johndoe@example.com']);
     }
 
 }
