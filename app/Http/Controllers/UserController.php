@@ -20,7 +20,7 @@ class UserController extends Controller
 
         // Utilizando Eloquent
 
-        $users = User::all();
+        $users = User::orderBy('created_at', 'DESC')->paginate(15);
         $title = 'Listado de Usuarios';
 
         return view('users.index', compact('title', 'users'));

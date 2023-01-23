@@ -38,10 +38,11 @@ class UserSeeder extends Seeder
             'profession_id' => $professionId,
         ]);
 
-        factory(User::class,29)->create()->each(function ($user){
-            $user->profile()->create(
-                factory(\App\UserProfiles::class)->raw()
-            );
+        factory(User::class,100)->create()->each(function ($user){
+                factory(\App\UserProfiles::class)->create([
+                    'user_id' => $user->id,
+                ]);
+
         });
 
         //User::create([

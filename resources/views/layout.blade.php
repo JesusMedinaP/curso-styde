@@ -41,7 +41,7 @@
         .nav-scroller {
             position: relative;
             z-index: 2;
-            height: 800px;
+            height: 900px;
             overflow-y: auto;
             overflow-x: auto;
         }
@@ -94,9 +94,9 @@
 </header>
 
 <!-- Begin page content -->
-<main role="main" class="flex-shrink-0">
+<main role="main" class="flex-shrink-0 nav-scroller">
     <div class="container">
-    <div class="row mt-3 nav-scroller">
+    <div class="row mt-3 ">
         <div class="col-10">
             @yield('content')
         </div>
