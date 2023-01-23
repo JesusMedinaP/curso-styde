@@ -34,21 +34,27 @@ class UpdateUserRequest extends FormRequest
 
     public function updateUser(User $user)
     {
+        $user->fill([
+            'name' => $this->name,
+            'email' => $this->email,
+        ]);
 
-        $data = $this->validated();
-        if($data['password'] != null)
+        if($this->password != null)
         {
-            $data['password'] = bcrypt($data['password']);
+           $user->password = bcrypt( $this->password);
         }else{
-            unset($data['password']);
+            unset($this->password);
         }
 
-        $user->fill($data);
-        $user->role = $data['role'];
+        $user->role = $this->role;
         $user->save();
 
-        $user->profile->update($data);
+        $user->profile->update([
+            'twitter' => $this->twitter,
+            'bio' => $this->bio,
+            'profession_id' => $this->profession_id,
+        ]);
 
-        $user->skills()->sync($data['skills'] ?? []);
+        $user->skills()->sync($this->skills ?: []);
     }
 }

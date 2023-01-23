@@ -180,7 +180,7 @@ class UpdateUsersTest extends TestCase
     }
 
 
-    /** @test  */
+
     function the_password_is_optional()
     {
         $this->withExceptionHandling();
