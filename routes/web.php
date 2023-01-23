@@ -34,7 +34,13 @@ Route::get('/usuarios/{user}/editar', 'UserController@edit')
 
 Route::put('/usuarios/{user}', 'UserController@update');
 
-Route::delete('usuarios/{user}', 'UserController@destroy')
+Route::get('usuarios/papelera', 'UserController@trashed')
+    ->name('users.trashed');
+
+Route::patch('usuarios/{user}/papelera', 'UserController@trash')
+    ->name('users.trash');
+
+Route::delete('usuarios/{id}', 'UserController@destroy')
     ->name('users.destroy');
 
 // Profile
@@ -55,3 +61,4 @@ Route::delete('profesiones/{profession}', 'ProfessionController@destroy')
 
 Route::get('/habilidades', 'SkillController@index')
     ->name('skills.index');
+
