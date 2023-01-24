@@ -1,67 +1,90 @@
-{{ csrf_field() }}
+{{csrf_field()}}
+<form method="get" action="{{url('usuarios')}}">
+    {{--            <div class="row row-filters">--}}
+    {{--                <div class="col-12">--}}
+    {{--                    <div class="form-check form-check-inline">--}}
+    {{--                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>--}}
+    {{--                        <label class="form-check-label" for="inlineRadio1">Todos</label>--}}
+    {{--                    </div>--}}
+    {{--                    <div class="form-check form-check-inline">--}}
+    {{--                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">--}}
+    {{--                        <label class="form-check-label" for="inlineRadio2">Solo activos</label>--}}
+    {{--                    </div>--}}
+    {{--                    <div class="form-check form-check-inline">--}}
+    {{--                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">--}}
+    {{--                        <label class="form-check-label" for="inlineRadio3">Solo inactivos</label>--}}
+    {{--                    </div>--}}
+    {{--                    <div class="form-check form-check-inline align-items-end">--}}
+    {{--                        <a href="{{ route('users.create') }}" class="btn btn-dark">Nuevo usuario</a>--}}
+    {{--                    </div>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
+    <div class="row row-filters">
+        <div class="col-md-6">
+            <div class="form-inline form-search">
+                <div class="input-group">
+                    <input type="search" name="search" class="form-control form-control-sm" placeholder="Buscar...">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary btn-sm"><span class="oi oi-magnifying-glass"></span></button>
+                    </div>
+                </div>
+                &nbsp;
+                {{--                        <div class="btn-group">--}}
+                {{--                            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+                {{--                                Profesión--}}
+                {{--                            </button>--}}
+                {{--                            <div class="dropdown-menu">--}}
+                {{--                                <a class="dropdown-item" href="#">Todos</a>--}}
+                {{--                                <a class="dropdown-item" href="#">Desarrollador back-end</a>--}}
+                {{--                                <a class="dropdown-item" href="#">Desarrollador front-end</a>--}}
+                {{--                                <a class="dropdown-item" href="#">Diseñador web</a>--}}
+                {{--                            </div>--}}
+                {{--                        </div>--}}
+                &nbsp;
+                {{--                        <div class="btn-group">--}}
+                {{--                            <button type="button" class="btn btn-sm btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+                {{--                                Habilidades--}}
+                {{--                            </button>--}}
+                {{--                            <div class="drop-menu skills-list">--}}
+                {{--                                <div class="form-group form-check">--}}
+                {{--                                    <input type="checkbox" class="form-check-input" id="skill1">--}}
+                {{--                                    <label class="form-check-label" for="skill1">CSS</label>--}}
+                {{--                                </div>--}}
+                {{--                                <div class="form-group form-check">--}}
+                {{--                                    <input type="checkbox" class="form-check-input" id="skill2">--}}
+                {{--                                    <label class="form-check-label" for="skill2">Laravel</label>--}}
+                {{--                                </div>--}}
+                {{--                                <div class="form-group form-check">--}}
+                {{--                                    <input type="checkbox" class="form-check-input" id="skill3">--}}
+                {{--                                    <label class="form-check-label" for="skill3">Front-End</label>--}}
+                {{--                                </div>--}}
+                {{--                                <div class="form-group form-check">--}}
+                {{--                                    <input type="checkbox" class="form-check-input" id="skill4">--}}
+                {{--                                    <label class="form-check-label" for="skill4">Bases de Datos</label>--}}
+                {{--                                </div>--}}
+                {{--                                <div class="form-group form-check">--}}
+                {{--                                    <input type="checkbox" class="form-check-input" id="skill5">--}}
+                {{--                                    <label class="form-check-label" for="skill5">Javascript</label>--}}
+                {{--                                </div>--}}
+                {{--                            </div>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
 
-<div class="form-group">
-    <label for="name">Nombre:</label>
-    <input type="text" class="form-control" name="name" id="name" placeholder="Pedro Perez" value="{{ old('name', $user->name) }}">
-</div>
-
-<div class="form-group">
-    <label for="email">Correo electrónico:</label>
-    <input type="email" class="form-control" name="email" id="email" placeholder="pedro@example.com" value="{{ old('email', $user->email) }}">
-</div>
-
-<div class="form-group">
-    <label for="password">Contraseña:</label>
-    <input type="password" class="form-control" name="password" id="password" placeholder="Mayor a 6 caracteres">
-</div>
-
-<div class="form-group">
-    <label for="bio">Bio:</label>
-    <textarea name="bio" class="form-control" id="bio">{{ old('bio', $user->profile->bio) }}</textarea>
-</div>
-
-<div class="form-group">
-    <label for="profession_id">Profesión</label>
-    <select name="profession_id" id="profession_id" class="form-control">
-        <option value="">Selecciona una profesión</option>
-        @foreach($professions as $profession)
-            <option value="{{ $profession->id }}"{{ old('profession_id', $user->profile->profession_id) == $profession->id ? ' selected' : '' }}>
-                {{ $profession->title }}
-            </option>
-        @endforeach
-    </select>
-</div>
-
-<div class="form-group">
-    <label for="twitter">Twitter:</label>
-    <input type="text" class="form-control" name="twitter" id="twitter" placeholder="https://twitter.com/Stydenet"
-           value="{{ old('twitter', $user->profile->twitter) }}">
-</div>
-
-<h5>Habilidades</h5>
-
-@foreach($skills as $skill)
-    <div class="form-check form-check-inline">
-        <input name="skills[{{ $skill->id }}]"
-               class="form-check-input"
-               type="checkbox"
-               id="skill_{{ $skill->id }}"
-               value="{{ $skill->id }}"
-                {{ $errors->any() ? old("skills.{$skill->id}") : $user->skills->contains($skill) ? 'checked' : '' }}>
-        <label class="form-check-label" for="skill_{{ $skill->id }}">{{ $skill->name }}</label>
+                {{--                <div class="col-md-6 text-right">--}}
+                {{--                    <div class="form-inline form-dates">--}}
+                {{--                        <label for="date_start" class="form-label-sm">Fecha</label>&nbsp;--}}
+                {{--                        <div class="input-group">--}}
+                {{--                            <input type="text" class="form-control form-control-sm" name="date_start" id="date_start" placeholder="Desde">--}}
+                {{--                        </div>--}}
+                {{--                        <div class="input-group">--}}
+                {{--                            <input type="text" class="form-control form-control-sm" name="date_end" id="date_end" placeholder="Hasta">--}}
+                {{--                        </div>--}}
+                {{--                        &nbsp;--}}
+                {{--                        <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>--}}
+                {{--                    </div>--}}
+                {{--                </div>--}}
+            </div>
+        </div>
     </div>
-@endforeach
-
-<h5 class="mt-3">Rol</h5>
-
-@foreach($roles as $role => $name)
-    <div class="form-check form-check-inline">
-        <input class="form-check-input"
-               type="radio"
-               name="role"
-               id="role_{{ $role }}"
-               value="{{ $role }}"
-                {{ old('role', $user->role) == $role ? 'checked' : '' }}>
-        <label class="form-check-label" for="role_{{ $role }}">{{ $name }}</label>
-    </div>
-@endforeach
+</form>
