@@ -28,7 +28,7 @@ class UserController extends Controller
 
     public function trashed()
     {
-        $users = User::onlyTrashed()->get();
+        $users = User::onlyTrashed()->paginate();
         $title = 'Listado de Usuarios Eliminados';
 
         return view('users.index', compact('title', 'users'));

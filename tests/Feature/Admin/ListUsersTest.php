@@ -43,6 +43,7 @@ class ListUsersTest extends TestCase
 
     function it_shows_the_deleted_users_list()
     {
+
         factory(User::class)->create([
             'name' => 'Joel',
             'deleted_at' => now(),

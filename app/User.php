@@ -27,11 +27,6 @@ class User extends Authenticatable
         
     ];
 
-    public function profession() //profession_id
-    {
-        return $this->belongsTo(Profession::class);
-    }
-
     public function profile()
     {
         return $this->hasOne(UserProfiles::class)->withDefault();

@@ -1,119 +1,249 @@
 <!doctype html>
-<html lang="en" class="h-100">
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.108.0">
-    <title>@yield('title')Proyecto Laravel</title>
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>@yield('title') Curso Laravel</title>
+
     <!-- Bootstrap core CSS -->
-    <link href="{{ asset('public/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.css" integrity="sha256-CNwnGWPO03a1kOlAsGaH5g8P3dFaqFqqGFV/1nkX5OU=" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/css/gijgo.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
 
-
-    <!-- Favicons -->
-    <meta name="theme-color" content="#712cf9">
-
-
-    <style>
-        .bd-placeholder-img {
-    font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-            }
-        }
-
-        .bi {
-    vertical-align: -.125em;
-            fill: currentColor;
-        }
-
-        .nav-scroller {
-            position: relative;
-            z-index: 2;
-            height: 900px;
-            overflow-y: auto;
-            overflow-x: auto;
-        }
-
-        .nav-scroller .nav {
-            display: flex;
-            flex-wrap: nowrap;
-            padding-bottom: 1rem;
-            margin-top: -1px;
-            overflow-x: scroll;
-            overflow-y: scroll;
-            text-align: center;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-        main > .container {
-            padding: 60px 15px 0;
-    </style>
 
 </head>
-<body class="d-flex flex-column h-100">
+
+<body>
 
 <header>
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="">Curso Laravel</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{url('usuarios')}}">Usuarios</a>
-                    </li>
-                    <li>
-                        <a class="nav-link active" aria-current="page" href="{{url('profesiones')}}">Profesiones</a>
-                    </li>
-                    <li>
-                        <a class="nav-link active" aria-current="page" href="{{url('habilidades')}}">Habilidades</a>
-                    </li>
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
+        <a class="navbar-logo" href="/">
+            <img src="" alt="Styde" width="100" height="30">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/usuarios') }}">Usuarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/profesiones') }}">Profesiones</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/habilidades') }}">Habilidades</a>
+                </li>
+            </ul>
         </div>
     </nav>
 </header>
 
 <!-- Begin page content -->
-<main role="main" class="flex-shrink-0 nav-scroller">
-    <div class="container">
-    <div class="row mt-3 ">
-        <div class="col-10">
+<main role="main" class="container navbar-nav-scroll">
+    <div class="row mt-3">
+        <div class="col-12">
             @yield('content')
         </div>
-        <div class="col-4">
-        </div>
-    </div>
     </div>
 </main>
 
-<footer class="footer mt-auto py-3 bg-light">
+<footer class="footer">
     <div class="container">
-        <span class="text-muted">Veo el fondo</span>
+        <span class="text-muted">Esto es un texto hasta abajo</span>
     </div>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
-<script src="{{ asset('public/js/bootstrap.min.js') }}"></script>
+
+
+<style>
+
+
+
+    body {
+        padding-top: 60px;
+    }
+
+    .navbar-logo {
+        margin-right: 24px;
+    }
+
+    .table {
+    thead {
+    .th-actions {
+        min-width: 120px;
+    }
+
+    th {
+    .oi {
+        font-size: 8px;
+        display: none;
+        color: $brand-info;
+        margin: 0 0 0 12px;
+        transform: translateY(-2px);
+    }
+
+    &.sort-asc {
+    .oi-caret-top {
+        display: inline-block;
+    }
+    }
+
+    &.sort-desc {
+    .oi-caret-bottom {
+        display: inline-block;
+    }
+    }
+    }
+    }
+
+    tbody {
+    th {
+        vertical-align: middle;
+    }
+
+    td {
+        color: lighten($text-color, 20%);
+        vertical-align: middle;
+    }
+
+    .skills {
+    th,
+    td {
+        border: 0;
+    }
+    }
+    }
+    }
+
+    .note {
+        display: block;
+        font-size: 0.75em;
+        line-height: 1.25;
+        font-weight: 200;
+        color: mix(#fff, $text-color, 20%);
+    }
+
+    .row-filters {
+        padding-bottom: 6px;
+    }
+
+    .form-dates {
+        justify-content: flex-end;
+
+    .input-group {
+        margin-left: 6px;
+        flex-basis: 140px;
+    }
+    }
+
+    .drop-skills {
+        position: relative;
+        overflow: visible;
+
+    .btn {
+        position: relative;
+        z-index: 0;
+    }
+    }
+
+    .skills-list {
+        position: absolute;
+        z-index: 1;
+        top: 99%;
+        left: 0;
+        padding: 0;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+        background-color: #fff;
+
+    .form-check {
+        padding: 0 24px 0 32px;
+        height: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        justify-content: flex-start;
+        transition: all 0.15s ease-out;
+        position: relative;
+
+    &:hover {
+         background-color: #f2f2f2;
+     }
+
+    input[type="checkbox"] {
+        position: absolute;
+        left: 12px;
+        top: 14px;
+    }
+    }
+    }
+
+    .drop-skills:hover {
+    .skills-list {
+        transform: translateY(0);
+        pointer-event: all;
+        opacity: 1;
+        border-color: rgba(0, 0, 0, 0.125)
+    }
+
+    .form-check {
+        padding: 8px 24px 8px 32px;
+        height: 40px;
+    }
+    }
+
+    .status {
+        display: inline-block;
+        margin: 0 0 0 6px;
+        width: 8px;
+        height: 8px;
+        border-radius: 5px;
+
+    &.st-active {
+         background-color: green;
+     }
+
+    .st-inactive {
+         background-color: red;
+     }
+    }
+
+    .gj-datepicker-bootstrap [role="right-icon"] button {
+        background-color: #5a6268;
+
+    &:hover {
+         background-color: mix(#000, #5a6268, 20%);
+     }
+
+    .material-icons,
+    .gj-icon {
+        font-size: 18px;
+        top: 6px;
+        color: #fff;
+    }
+    }
+
+</style>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script>
+    $('#date_start').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+    $('#date_end').datepicker({
+        uiLibrary: 'bootstrap4'
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.10/js/gijgo.min.js"></script>
 </body>
 </html>
