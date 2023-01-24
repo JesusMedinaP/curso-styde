@@ -2,11 +2,14 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use \App\User;
-use \App\Profession;
-use App\Skill;
+use \App\{User, Profession, Skill, Team, UserProfiles};
+
 class UserSeeder extends Seeder
 {
+
+    protected $professions;
+    protected $skills;
+    protected $teams;
     /**
      * Run the database seeds.
      *
@@ -15,10 +18,6 @@ class UserSeeder extends Seeder
     public function run()
     {
        //$professions = DB::select('SELECT id FROM professions WHERE title = ? LIMIT 0,1', ['Desarrollador Back-end']);
-
-        $professions = Profession::all();
-
-        $skills = Skill::all();
 
        //DB::table('users')->insert([
       //     'name' => 'John Doe',
@@ -29,29 +28,13 @@ class UserSeeder extends Seeder
       //         ->value('id')
       // ]);
 
-        $user = factory(User::class)->create([
-            'name' => 'John Doe',
-            'email' => 'johndoe@example.com',
-            'password' => bcrypt('laravel'),
-            'role' => 'admin',
-            'created_at' => now()->addDay(),
-        ]);
-        $user->profile()->create([
-            'bio' => 'Programador Web',
-            'profession_id' => $professions->where('title', 'Desarrollador Back-end')->first()->id
-        ]);
+        $this->fetchRelations();
 
-        factory(User::class,100)->create()->each(function ($user) use ($professions, $skills){
-            $randomSkills = $skills->random(rand(0,6));
+        $this->createAdmin();
 
-            $user->skills()->attach($randomSkills);
-
-                factory(\App\UserProfiles::class)->create([
-                    'user_id' => $user->id,
-                    'profession_id' => rand(0,2) ? $professions->random()->id : null,
-                ]);
-
-        });
+        foreach (range(1,999) as $i){
+            $this->createRandomUser();
+        }
 
         //User::create([
         //    'name' => 'Geralt de Rivia',
@@ -66,5 +49,42 @@ class UserSeeder extends Seeder
         //    'password' => bcrypt('1234'),
         //   'profession_id' => $professionId
         //]);
+    }
+    protected function fetchRelations() {
+        $this->professions = Profession::all();
+        $this->skills = Skill::all();
+        $this->teams = Team::all();
+    }
+
+    public function createAdmin()
+    {
+        $admin = factory(User::class)->create([
+            'team_id' => $this->teams->firstWhere('name', 'Styde'),
+            'name' => 'John Doe',
+            'email' => 'johndoe@example.com',
+            'password' => bcrypt('laravel'),
+            'role' => 'admin',
+            'created_at' => now()->addDay(),
+        ]);
+        $admin->skills()->attach($this->skills);
+
+        $admin->profile()->create([
+            'bio' => 'Programador Web',
+            'profession_id' => $this->professions->where('title', 'Desarrollador Back-end')->first()->id
+        ]);
+    }
+
+    public function createRandomUser(): void
+    {
+        $user = factory(User::class)->create([
+            'team_id' => $this->teams->random()->id,
+        ]);
+
+        $user->skills()->attach($this->skills->random(rand(0, 6)));
+
+        factory(UserProfiles::class)->create([
+            'user_id' => $user->id,
+            'profession_id' => rand(0, 2) ? $this->professions->random()->id : null,
+        ]);
     }
 }

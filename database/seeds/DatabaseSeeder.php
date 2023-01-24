@@ -17,12 +17,15 @@ class DatabaseSeeder extends Seeder
             'user_skill',
             'skills',
             'professions',
+            'teams',
         ]);
 
         // $this->call(UsersTableSeeder::class);
         $this->call(ProfessionSeeder::class);
         $this->call(SkillSeeder::class);
+        $this->call(TeamSeeder::class);
         $this->call(UserSeeder::class);
+
     }
 
     /**

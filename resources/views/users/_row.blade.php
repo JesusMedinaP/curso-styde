@@ -4,7 +4,9 @@
         {{ $user->name }} {{ $user->status }} <span class="status st-active"></span> <span class="status st-inactive"></span>
         <span class="note">Nombre de Empresa</span>
     </th>
+    <td>{{ $user->team->name }}</td>
     <td>{{ $user->email }}</td>
+    <td>{{ $user->role }}</td>
     <td>
         <span class="note">Registro: {{ $user->created_at->format('d/m/Y') }}</span>
         <span class="note">Último login: {{ $user->created_at->format('d/m/Y') }}</span>

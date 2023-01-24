@@ -27,6 +27,10 @@ class User extends Authenticatable
         
     ];
 
+    public function team(){
+        return $this->belongsTo(Team::class)->withDefault();
+    }
+
     public function profile()
     {
         return $this->hasOne(UserProfiles::class)->withDefault();
