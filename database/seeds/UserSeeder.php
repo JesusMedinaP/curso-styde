@@ -77,7 +77,7 @@ class UserSeeder extends Seeder
     public function createRandomUser(): void
     {
         $user = factory(User::class)->create([
-            'team_id' => $this->teams->random()->id,
+            'team_id' => rand(0,2) ? null : $this->teams->random()->id,
         ]);
 
         $user->skills()->attach($this->skills->random(rand(0, 6)));
