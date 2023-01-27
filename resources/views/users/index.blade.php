@@ -32,7 +32,7 @@
                 </tbody>
             </table>
 
-            {{ $users->render() }}
+            {{ $users->appends(request(['search']))->render() }}
         </div>
     @else
         <p>No hay usuarios registrados.</p>
