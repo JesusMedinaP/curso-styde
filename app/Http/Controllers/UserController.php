@@ -16,6 +16,7 @@ class UserController extends Controller
         // Utilizando Eloquent
 
         $users = User::query()
+            ->with('team', 'profile', 'skills')
             ->search(request('search'))
             ->orderByDesc('created_at')
             ->paginate(15);

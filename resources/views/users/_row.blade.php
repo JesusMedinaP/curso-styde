@@ -2,7 +2,6 @@
     <td rowspan="2">{{ $user->id }}</td>
     <th scope="row">
         {{ $user->name }} {{ $user->status }} <span class="status st-active"></span> <span class="status st-inactive"></span>
-        <span class="note">Nombre de Empresa</span>
     </th>
     <td>{{ $user->team->name }}</td>
     <td>{{ $user->email }}</td>
