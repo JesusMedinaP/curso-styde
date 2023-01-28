@@ -16,7 +16,7 @@
 
             <div class="form-group">
                 <label for="name">Nombre:</label>
-                <input type="text" class="form-control" name="name" id="name" placeholder="Pedro Pérez" value="{{old('name', $user->name)}}">
+                <input type="text" class="form-control" name="name" id="name" placeholder="Pedro Pérez" value="{{old('name', $user->first_name)}}">
             </div>
 
             <div class="form-group">

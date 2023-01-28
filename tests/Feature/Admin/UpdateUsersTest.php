@@ -15,7 +15,8 @@ class UpdateUsersTest extends TestCase
 
     use RefreshDatabase;
     protected $defaultData = [
-        'name' => 'John Doe',
+        'first_name' => 'John',
+        'last_name' => 'Doe',
         'email' => 'johndoe@example.com',
         'password' => '123456',
         'profession_id' => '',
@@ -57,27 +58,23 @@ class UpdateUsersTest extends TestCase
         $newSkill1 = factory(Skill::class)->create();
         $newSkill2 = factory(Skill::class)->create();
 
-        $this->put("usuarios/{$user->id}",[
-            'name' => 'Duilio',
-            'email' => 'duilio@gmail.com',
-            'password' => '1234567',
-            'bio' => 'Programador de Laravel y Vue.js',
-            'twitter' => 'https://twitter.com/silencee',
+        $this->put("usuarios/{$user->id}",$this->withData([
             'role' => 'admin',
             'profession_id' => $newProfession->id,
             'skills' => [$newSkill1->id, $newSkill2->id],
-        ])->assertRedirect("usuarios/{$user->id}");
+        ]))->assertRedirect("usuarios/{$user->id}");
 
         $this->assertCredentials([
-            'name' => 'Duilio',
-            'email' => 'duilio@gmail.com',
-            'password' => '1234567',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'email' => 'johndoe@example.com',
+            'password' => '123456',
             'role' => 'admin',
         ]);
         $this->assertDatabaseHas('user_profiles', [
            'user_id' => $user->id,
-            'bio' => 'Programador de Laravel y Vue.js',
-            'twitter' => 'https://twitter.com/silencee',
+            'bio' => 'Programador de Laravel',
+            'twitter' => 'https://twitter.com/johndoe',
             'profession_id' => $newProfession->id,
         ]);
         $this->assertDatabaseCount('user_skill', 2);
@@ -109,17 +106,34 @@ class UpdateUsersTest extends TestCase
     }
 
     /** @test  */
-    function  the_name_is_required()
+    function  the_first_name_is_required()
     {
         $this->withExceptionHandling();
         $user = factory(User::class)->create();
 
         $this->from("usuarios/{$user->id}/editar")
             ->put("/usuarios/{$user->id}", $this->withData([
-                'name' => ''
+                'first_name' => ''
             ]))
             ->assertRedirect("usuarios/{$user->id}/editar")
-            ->assertSessionHasErrors(['name']);
+            ->assertSessionHasErrors(['first_name']);
+
+        $this->assertDatabaseMissing('users', ['email' => 'johndoe@example.com']);
+    }
+
+
+    /** @test  */
+    function  the_last_name_is_required()
+    {
+        $this->withExceptionHandling();
+        $user = factory(User::class)->create();
+
+        $this->from("usuarios/{$user->id}/editar")
+            ->put("/usuarios/{$user->id}", $this->withData([
+                'last_name' => ''
+            ]))
+            ->assertRedirect("usuarios/{$user->id}/editar")
+            ->assertSessionHasErrors(['last_name']);
 
         $this->assertDatabaseMissing('users', ['email' => 'johndoe@example.com']);
     }
@@ -191,7 +205,8 @@ class UpdateUsersTest extends TestCase
 
         $this->from("usuarios/{$user->id}/editar")
             ->put("/usuarios/{$user->id}", [
-                'name' => 'John Doe',
+                'first_name' => 'John',
+                'last_name' => 'Doe',
                 'email' => 'johndoe@example.com',
                 'password' => '',
                 'role' => 'user'
@@ -199,7 +214,8 @@ class UpdateUsersTest extends TestCase
             ->assertRedirect("usuarios/{$user->id}");
 
         $this->assertCredentials([
-            'name' => 'John Doe',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
             'email' => 'johndoe@example.com',
             'password' => $oldPassword
         ]);
@@ -220,7 +236,7 @@ class UpdateUsersTest extends TestCase
             ->assertRedirect("usuarios/{$user->id}");
 
         $this->assertDatabaseHas('users',[
-            'name' => 'John Doe',
+            'first_name' => 'John',
             'email' => 'johndoe@example.com',
         ]);
     }

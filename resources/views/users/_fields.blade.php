@@ -1,17 +1,25 @@
 
 {{csrf_field()}}
 <div class="mb-3 m-lg-3">
-    <label for="name" class="form-label">Nombre:</label>
-    <input type="text" class="form-control" name="name" id="name" placeholder="Introduce tu nombre" value="{{old('name', isset($user) ? $user->name : '')}}">
+    <label for="name" class="form-label">Primer Nombre:</label>
+    <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Introduce tu nombre" value="{{old('first_name', isset($user) ? $user->first_name : '')}}">
 </div>
+
+<div class="mb-3 m-lg-3">
+    <label for="name" class="form-label">Apellido:</label>
+    <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Introduce tu apellido" value="{{old('last_name', isset($user) ? $user->last_name : '')}}">
+</div>
+
 <div class="mb-3 m-lg-3">
     <label for="email" class="form-label">Email:</label>
     <input type="email" class="form-control" name="email" id="email" placeholder="Introduce tu Email" value="{{old('email', isset($user) ? $user->email : '')}}">
 </div>
-<div class="mb-3 m-lg-3" class="form-label">
-    <label for="password">Contraseña:</label>
+
+<div class="mb-3 m-lg-3">
+    <label for="password" class="form-label">Contraseña:</label>
     <input type="password" class="form-control" name="password" id="password" placeholder="Mayor a 6 caracteres">
 </div>
+
 <div class="mb-3 m-lg-3">
     <label for="bio" class="form-label">Bio:</label>
     <textarea type="text" class="form-control" name="bio" id="bio" placeholder="Escribe algo sobre ti">{{old('bio', isset($user) ? $user->profile->bio : '')}}</textarea>
