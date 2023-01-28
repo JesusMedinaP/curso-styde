@@ -15,11 +15,16 @@ class UserController extends Controller
 
         // Utilizando Eloquent
 
-        $users = User::query()
-            ->with('team', 'profile', 'skills')
-            ->search(request('search'))
-            ->orderByDesc('created_at')
-            ->paginate(15);
+        if(request('search')){
+            $q = User::search(request('search'));
+        }else{
+            $q = User::query();
+        }
+
+        $users = $q->paginate(15)
+            ->appends(request(['search']));
+
+        $users->load('team');
 
         $title = 'Listado de Usuarios';
 

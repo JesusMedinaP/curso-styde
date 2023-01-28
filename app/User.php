@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable
 {
     use Notifiable;
     use SoftDeletes;
+    use Searchable;
 
     protected $guarded = [];
 
@@ -62,19 +64,29 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function scopeSearch($query, $search)
+    public function toSearchableArray()
     {
-        if(empty($search)){
-            return;
-        }
-        //$query->where(DB::raw('CONCAT(first_name, " ", last_name)'), 'like', "%{$search}%")
+        return [
+            'name' => $this->name,
+            'email' => $this->email,
+            'team' => $this->team->name,
 
-        $query->whereRaw('CONCAT(first_name, " ", last_name) like ?', "%{$search}%")
-            ->orWhere('email', 'like', "%{$search}%")
-            ->orWhereHas('team', function ($query) use ($search){
-                $query->where('name', 'like', "%{$search}%");
-            });
+        ];
     }
+
+//    public function scopeSearch($query, $search)
+//    {
+//        if(empty($search)){
+//            return;
+//        }
+//        //$query->where(DB::raw('CONCAT(first_name, " ", last_name)'), 'like', "%{$search}%")
+//
+//        $query->whereRaw('CONCAT(first_name, " ", last_name) like ?', "%{$search}%")
+//            ->orWhere('email', 'like', "%{$search}%")
+//            ->orWhereHas('team', function ($query) use ($search){
+//                $query->where('name', 'like', "%{$search}%");
+//            });
+//    }
 
     public function getNameAttribute()
     {
