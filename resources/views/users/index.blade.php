@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    @include('users._filters')
+    @includeWhen(isset($states),'users._filters')
 
     @if ($users->isNotEmpty())
 

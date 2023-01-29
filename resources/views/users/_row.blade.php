@@ -30,7 +30,9 @@
 </tr>
 <tr class="skills">
     <td colspan="1">
+        @if($user->profile->exists)
         <span class="note">{{ $user->profile->profession->title }}</span>
+        @endif
     </td>
     <td colspan="4"><span class="note">{{ $user->skills->implode('name', ', ') ?: 'Sin habilidades :(' }}</span></td>
 </tr>

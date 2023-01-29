@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\{CreateUserRequest, UpdateUserRequest};
+use Illuminate\Pagination\Paginator;
 use App\{Skill, User, UserProfiles, Profession};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,20 +16,28 @@ class UserController extends Controller
 
         // Utilizando Eloquent
 
-        if(request('search')){
-            $q = User::search(request('search'));
-        }else{
-            $q = User::query();
-        }
+        $users = User::query()
+            ->with('team', 'skills', 'profile.profession')
+            ->search(request('search'))
+            ->orderByDesc('created_at')
+            ->paginate();
 
-        $users = $q->paginate(15)
-            ->appends(request(['search']));
+        $users->appends(request(['search']));
 
-        $users->load('team');
+//        $users = $q->paginate(15)
+//            ->appends(request(['search']));
+//
+//        $users->load('team', 'skills');
 
-        $title = 'Listado de Usuarios';
 
-        return view('users.index', compact('title', 'users'));
+        return view('users.index', [
+            'users' => $users,
+            'title' => 'Listado de Usuarios',
+            'roles' => trans('users.filters.roles'),
+            'skills' => Skill::orderBy('name')->get(),
+            'states' => trans('users.filters.states'),
+            'checkedSkills' => collect(request('skills')),
+        ]);
     }
 
     public function trashed()
