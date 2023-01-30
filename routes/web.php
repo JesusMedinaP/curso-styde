@@ -34,11 +34,15 @@ Route::get('/usuarios/{user}/editar', 'UserController@edit')
 
 Route::put('/usuarios/{user}', 'UserController@update');
 
+
+// Papelera
+
 Route::get('usuarios/papelera', 'UserController@trashed')
     ->name('users.trashed');
 
 Route::patch('usuarios/{user}/papelera', 'UserController@trash')
     ->name('users.trash');
+
 
 Route::delete('usuarios/{id}', 'UserController@destroy')
     ->name('users.destroy');

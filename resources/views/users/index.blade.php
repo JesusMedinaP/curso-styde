@@ -4,13 +4,21 @@
 
 @section('content')
     <div class="d-flex justify-content-between align-items-end mb-3">
-        <h1 class="pb-1">{{ $title }}</h1>
+        <h1 class="pb-1">
+            {{trans("users.titles.{$view}")}}
+        </h1>
         <div class="form-check form-check-inline align-items-end">
-            <a href="{{ route('users.create') }}" class="btn btn-dark">Nuevo usuario</a>
+            @if($view == 'index')
+                <a href="{{ route('users.create') }}" class="btn btn-dark">Nuevo usuario</a>
+                &nbsp;
+                <a href="{{route('users.trashed')}}" class="btn btn-dark">Papelera</a>
+            @else
+                <a href="{{route('users.index')}}" class="btn btn-dark">Volver al listado</a>
+            @endif
         </div>
     </div>
 
-    @includeWhen(isset($states),'users._filters')
+    @includeWhen($view == 'index','users._filters')
 
     @if ($users->isNotEmpty())
 

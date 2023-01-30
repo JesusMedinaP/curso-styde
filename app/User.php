@@ -93,7 +93,7 @@ class User extends Authenticatable
         return "{$this->first_name} {$this->last_name}";
     }
 
-    public function scopebyState($query, $state)
+    public function scopeByState($query, $state)
     {
         if($state == 'active')
         {
@@ -113,5 +113,12 @@ class User extends Authenticatable
     public function getStateAttribute()
     {
         return $this->active ? 'active' : 'inactive';
+    }
+
+    public function scopeByRole($query, $role)
+    {
+        if(in_array($role, ['admin', 'user'])){
+            $query->where('role', $role);
+        }
     }
 }

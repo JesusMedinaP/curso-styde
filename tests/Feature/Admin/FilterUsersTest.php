@@ -43,4 +43,44 @@ class FilterUsersTest extends TestCase
             ->notcontains($activeUser)
             ->contains($inactiveUser);
     }
+
+    /** @test  */
+
+    function filter_users_by_role_admin()
+    {
+
+        $admin = factory(User::class)->create([
+            'role' => 'admin'
+        ]);
+
+        $user = factory(User::class)->create([
+            'role' => 'user'
+        ]);
+
+        $response = $this->get('/usuarios?role=admin');
+
+        $response->assertViewCollection('users')
+            ->notcontains($user)
+            ->contains($admin);
+    }
+
+    /** @test  */
+
+    function filter_users_by_role_user()
+    {
+
+        $admin = factory(User::class)->create([
+            'role' => 'admin'
+        ]);
+
+        $user = factory(User::class)->create([
+            'role' => 'user'
+        ]);
+
+        $response = $this->get('/usuarios?role=user');
+
+        $response->assertViewCollection('users')
+            ->notcontains($admin)
+            ->contains($user);
+    }
 }
