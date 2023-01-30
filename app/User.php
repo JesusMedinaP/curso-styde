@@ -92,4 +92,15 @@ class User extends Authenticatable
     {
         return "{$this->first_name} {$this->last_name}";
     }
+    public function scopebyState($query, $state)
+    {
+        if($state == 'active')
+        {
+            return $query->where('active', true);
+        }
+        if ($state == 'inactive')
+        {
+            return $query->where('active', false);
+        }
+    }
 }
