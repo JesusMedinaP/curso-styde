@@ -30,6 +30,9 @@ class UpdateUserRequest extends FormRequest
             'profession_id' => '',
             'twitter' => '',
             'skills' => '',
+            'state' => [
+              'required', Rule::in(['active', 'inactive'])
+            ],
         ];
     }
 
@@ -39,6 +42,7 @@ class UpdateUserRequest extends FormRequest
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'email' => $this->email,
+            'state' => $this->state,
         ]);
 
         if($this->password != null)

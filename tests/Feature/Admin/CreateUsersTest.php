@@ -22,6 +22,7 @@ class CreateUsersTest extends TestCase
         'bio' => 'Programador de Laravel',
         'twitter' => 'https://twitter.com/johndoe',
         'role' => 'user',
+        'state' => 'active',
     ];
 
     /** @test */
@@ -59,9 +60,11 @@ class CreateUsersTest extends TestCase
             'email' => 'johndoe@example.com',
             'password' => '123456',
             'role' => 'user',
-
+            'active' => true,
         ]);
+
         $user = User::where('email', 'johndoe@example.com')->first();
+
         $this->assertDatabaseHas('user_profiles',[
             'bio' => 'Programador de Laravel',
             'twitter' => 'https://twitter.com/johndoe',
@@ -291,5 +294,33 @@ class CreateUsersTest extends TestCase
 
         $this->assertEquals(0, User::count());
     }
+
+
+    /** @test  */
+
+    function the_state_must_be_valid()
+    {
+        $this->handleValidationExceptions();
+
+        $this->post('/usuarios/', $this->withData([
+            'state' => 'invalid-data',
+        ]))->assertSessionHasErrors(['state']);
+
+        $this->assertEquals(0, User::count());
+    }
+
+    /** @test  */
+
+    function the_state_is_required()
+    {
+        $this->handleValidationExceptions();
+
+        $this->post('/usuarios/', $this->withData([
+            'state' => null,
+        ]))->assertSessionHasErrors(['state']);
+
+        $this->assertEquals(0, User::count());
+    }
+
 
 }

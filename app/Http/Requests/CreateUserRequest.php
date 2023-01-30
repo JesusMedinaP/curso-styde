@@ -40,7 +40,11 @@ class CreateUserRequest extends FormRequest
                 Rule::exists('professions', 'id')->where('selectable', true),
             ],
             'skills' => ['array',
-                Rule::exists('skills', 'id')],
+                Rule::exists('skills', 'id')
+            ],
+            'state' => [
+                'required', Rule::in(['active', 'inactive']),
+            ]
 
         ];
     }
@@ -64,6 +68,7 @@ class CreateUserRequest extends FormRequest
                 'email' => $this->email,
                 'password' => bcrypt($this->password),
                 'role' => $this->role ?? 'user',
+                'state' => $this->state,
             ]);
 
             $user->save();

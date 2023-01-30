@@ -27,3 +27,9 @@ $factory->define(App\User::class, function (Faker $faker) {
 $factory->afterCreating(App\User::class, function ($user, $faker){
    $user->profile()->save(factory(\App\UserProfiles::class)->make());
 });
+
+$factory->state(App\User::class, 'inactive', function ($faker){
+   return [
+       'active' => false,
+   ];
+});

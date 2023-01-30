@@ -2,11 +2,8 @@
     <td rowspan="2">{{ $user->id }}</td>
     <th scope="row">
         {{ $user->name }} {{ $user->status }}
-        @if ($user->active)
-        <span class="status st-active"></span>
-        @else
-        <span class="status st-inactive"></span>
-        @endif
+        <span class="status st-{{$user->state}}"></span>
+        <span class="note">{{$user->team->name}}</span>
     </th>
     <td>{{ $user->team->name }}</td>
     <td>{{ $user->email }}</td>
