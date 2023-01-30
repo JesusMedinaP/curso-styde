@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Providers\UserQuery;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -28,6 +30,19 @@ class User extends Authenticatable
     protected $casts = [
         
     ];
+
+
+    /**
+     * Create a new Eloquent query builder for the model.
+     *
+     * @param  \Illuminate\Database\Query\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder|static
+     */
+    public function newEloquentBuilder($query)
+    {
+        return new UserQuery($query);
+    }
+
 
     public function team(){
         return $this->belongsTo(Team::class)->withDefault();
@@ -74,36 +89,12 @@ class User extends Authenticatable
         ];
     }
 
-    public function scopeSearch($query, $search)
-    {
-        if(empty($search)){
-            return;
-        }
-        //$query->where(DB::raw('CONCAT(first_name, " ", last_name)'), 'like', "%{$search}%")
-
-        $query->whereRaw('CONCAT(first_name, " ", last_name) like ?', "%{$search}%")
-            ->orWhere('email', 'like', "%{$search}%")
-            ->orWhereHas('team', function ($query) use ($search){
-                $query->where('name', 'like', "%{$search}%");
-            });
-    }
-
     public function getNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
     }
 
-    public function scopeByState($query, $state)
-    {
-        if($state == 'active')
-        {
-            return $query->where('active', true);
-        }
-        if ($state == 'inactive')
-        {
-            return $query->where('active', false);
-        }
-    }
+
 
     public function setStateAttribute($value)
     {
@@ -115,10 +106,5 @@ class User extends Authenticatable
         return $this->active ? 'active' : 'inactive';
     }
 
-    public function scopeByRole($query, $role)
-    {
-        if(in_array($role, ['admin', 'user'])){
-            $query->where('role', $role);
-        }
-    }
+
 }
