@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\{CreateUserRequest, UpdateUserRequest};
 use Illuminate\Pagination\Paginator;
-use App\{Skill, User, UserProfiles, Profession};
+use App\{Skill, User, UserProfiles, Profession, UserQuery};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Constructor de consultas $users = DB::table('users')->get();
 
@@ -18,9 +18,7 @@ class UserController extends Controller
 
         $users = User::query()
             ->with('team', 'skills', 'profile.profession')
-            ->byState(request('state'))
-            ->byRole(request('role'))
-            ->search(request('search'))
+            ->filterBy($request->all(['state', 'role', 'search']))
             ->orderByDesc('created_at')
             ->paginate();
 

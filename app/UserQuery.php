@@ -1,22 +1,31 @@
 <?php
 
-namespace App\Providers;
+namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
 
 class UserQuery extends Builder
 {
+    use FiltersQueries;
 
     public static function findByEmail($email)
     {
         return static::where(compact('email'))->first();
     }
 
-    public function search( $search)
+
+    protected function filterRules() : array
     {
-        if(empty($search)){
-            return $this;
-        }
+        return $rules = [
+            'search' => 'filled',
+            'state' => 'in:active,inactive',
+            'role' => 'in:admin,user',
+        ];
+    }
+
+
+    public function filterBySearch( $search)
+    {
         //$query->where(DB::raw('CONCAT(first_name, " ", last_name)'), 'like', "%{$search}%")
 
         return $this->whereRaw('CONCAT(first_name, " ", last_name) like ?', "%{$search}%")
@@ -27,27 +36,10 @@ class UserQuery extends Builder
 
     }
 
-    public function byState($state)
+    public function filterByState($state)
     {
-        if($state == 'active')
-        {
-            return $this->where('active', true);
-        }
-        if ($state == 'inactive')
-        {
-            return $this->where('active', false);
-        }
-
-        return $this;
+        return $this->where('active', $state == 'active');
     }
 
-    public function byRole($role)
-    {
-        if(in_array($role, ['admin', 'user'])){
-            return $this->where('role', $role);
-        }
-
-        return $this;
-    }
 
 }
