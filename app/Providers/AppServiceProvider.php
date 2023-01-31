@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Profession;
 use App\Skill;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -27,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
             $args = trim($parts[1] ?? '[]');
 
             return "<?php echo app('App\Http\ViewComponents\\\\'.$component, $args)->toHtml()?>";
+        });
+
+        Builder::macro('whereQuery', function ($subquery, $value){
+            $this->addBinding($subquery->getBindings());
+            $this->where(DB::raw("({$subquery->toSql()})"), $value);
         });
     }
 
