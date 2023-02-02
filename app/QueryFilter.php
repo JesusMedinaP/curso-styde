@@ -8,9 +8,9 @@ use Illuminate\Support\Str;
 abstract class QueryFilter
 {
 
-    protected $valid;
+    protected $valid = [];
 
-    abstract public function rules();
+    abstract public function rules() : array;
 
     public function applyTo($query, array $filters)
     {

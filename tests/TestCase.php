@@ -10,9 +10,10 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication, TestHelpers, DetectRepeatedQueries;
     protected $defaultData = [];
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
+
         $this->withoutExceptionHandling();
 
         $this->addTestResponseMacros();
@@ -20,13 +21,13 @@ abstract class TestCase extends BaseTestCase
         $this->enableQueryLog();
 
     }
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->flushQueryLog();
         parent::tearDown();
     }
 
-    public function addTestResponseMacros(): void
+    protected function addTestResponseMacros(): void
     {
         TestResponse::macro('viewData', function ($key) {
             $this->ensureResponseHasView();

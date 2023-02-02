@@ -7,7 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class UserFilter extends QueryFilter
 {
-    public function rules()
+    protected $aliases = [
+        'date' => 'created_at',
+        'login' => 'last_login_at',
+    ];
+
+    public function rules() : array
     {
         return [
             'search' => 'filled',

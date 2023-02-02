@@ -20,11 +20,6 @@ class UserProfileTest extends TestCase
         'twitter' => 'https://twitter.com/johndoe',
     ];
 
-    public function setUp()
-    {
-        parent::setUp();
-
-    }
 
     /** @test */
 
