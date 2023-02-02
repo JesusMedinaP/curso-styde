@@ -33,9 +33,9 @@ class DeleteProfessionsTest extends TestCase
         $this->withExceptionHandling();
         $profession = factory(Profession::class)->create();
 
-        $profile = factory(UserProfiles::class)->create([
+        $user = factory(User::class)->create([]);
+        $user->profile->update([
             'profession_id' => $profession->id,
-            'user_id' => factory(User::class)->create()->id,
         ]);
 
         $response = $this->delete("profesiones/{$profession->id}");

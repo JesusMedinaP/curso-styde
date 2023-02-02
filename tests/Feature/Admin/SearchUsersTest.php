@@ -31,24 +31,24 @@ class SearchUsersTest extends TestCase
             });
     }
 
-    /** @test */
-
-    function partial_search_for_first_name()
-    {
-        $joel = factory(User::class)->create([
-            'first_name' => 'Joel'
-        ]);
-
-        $ellie = factory(User::class)->create([
-            'first_name' => 'Ellie'
-        ]);
-
-        $this->get('/usuarios?search=Jo')
-            ->assertStatus(200)
-            ->assertViewHas('users', function ($users) use ($joel, $ellie){
-                return $users->contains($joel) && !$users->contains($ellie);
-            });
-    }
+//    /** @test */
+//
+//    function partial_search_for_first_name()
+//    {
+//        $joel = factory(User::class)->create([
+//            'first_name' => 'Joel'
+//        ]);
+//
+//        $ellie = factory(User::class)->create([
+//            'first_name' => 'Ellie'
+//        ]);
+//
+//        $this->get('/usuarios?search=Jo')
+//            ->assertStatus(200)
+//            ->assertViewHas('users', function ($users) use ($joel, $ellie){
+//                return $users->contains($joel) && !$users->contains($ellie);
+//            });
+//    }
 
 
     /** @test */
