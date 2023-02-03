@@ -26,13 +26,21 @@
             <table class="table table-sm">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col"># <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-                    <th scope="col" class="sort-desc">Nombre <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-                    <th scope="col">Empresa<span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-                    <th scope="col">Correo<span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-                    <th scope="col">Rol<span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
-                    <th scope="col">Fechas<span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>
+
+                    <th scope="col">#</th>
+                    <th scope="col"><a href="#" class=" {{$sortable->classes('name')}} ">Nombre <i class="bi bi-sort-up"></i></a></th>
+                    <th scope="col"><a href="#" class="{{$sortable->classes('email')}}">Correo <i class="icon-sort"></i></a></th>
+                    <th scope="col"><a href="#" class="{{$sortable->classes('created_at')}}">Fechas <i class="icon-sort"></i></a></th>
                     <th scope="col" class="text-right th-actions">Acciones</th>
+
+
+{{--                    <th scope="col"># <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>--}}
+{{--                    <th scope="col" class="sort-desc">Nombre <span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>--}}
+{{--                    <th scope="col">Empresa<span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>--}}
+{{--                    <th scope="col">Correo<span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>--}}
+{{--                    <th scope="col">Rol<span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>--}}
+{{--                    <th scope="col">Fechas<span class="oi oi-caret-bottom"></span><span class="oi oi-caret-top"></span></th>--}}
+{{--                    <th scope="col" class="text-right th-actions">Acciones</th>--}}
                 </tr>
                 </thead>
                 <tbody>

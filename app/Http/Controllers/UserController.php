@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\{CreateUserRequest, UpdateUserRequest};
 use Illuminate\Pagination\Paginator;
-use App\{Skill, User, UserFilter, UserProfiles, Profession, UserQuery};
+use App\{Skill, Sortable, User, UserFilter, UserProfiles, Profession, UserQuery};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    public function index(Request $request, UserFilter $filters)
+    public function index(Request $request, UserFilter $filters, Sortable $sortable)
     {
         // Constructor de consultas $users = DB::table('users')->get();
 
@@ -29,6 +29,7 @@ class UserController extends Controller
 //
 //        $users->load('team', 'skills');
 
+        $sortable->setCurrentOrder(request('order'), request('direction'));
 
         return view('users.index', [
             'users' => $users,
@@ -36,6 +37,7 @@ class UserController extends Controller
             'skills' => Skill::orderBy('name')->get(),
             'showFilters' => true,
             'checkedSkills' => collect(request('skills')),
+            'sortable' => $sortable,
         ]);
     }
 
