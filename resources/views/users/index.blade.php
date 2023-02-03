@@ -28,7 +28,7 @@
                 <tr>
 
                     <th scope="col">#</th>
-                    <th scope="col"><a href=" {{$sortable->url('name')}} " class=" {{$sortable->classes('name')}} ">Nombre <i class="bi bi-sort-up"></i></a></th>
+                    <th scope="col"><a href=" {{$sortable->url('first_name')}} " class=" {{$sortable->classes('first_name')}} ">Nombre <i class="bi bi-sort-up"></i></a></th>
                     <th scope="col"><a href=" {{$sortable->url('email')}} " class="{{$sortable->classes('email')}}">Correo <i class="icon-sort"></i></a></th>
                     <th scope="col"><a href=" {{$sortable->url('created_at')}} " class="{{$sortable->classes('created_at')}}">Fechas <i class="icon-sort"></i></a></th>
                     <th scope="col" class="text-right th-actions">Acciones</th>

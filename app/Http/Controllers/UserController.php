@@ -19,7 +19,11 @@ class UserController extends Controller
         $users = User::query()
             ->with('team', 'skills', 'profile.profession')
             ->filterBy($filters, $request->only(['state', 'role', 'search', 'skills', 'from', 'to']))
-            ->orderByDesc('created_at')
+            ->when(request('order'), function ($q){
+                $q->orderBy(request('order'), request('direction', 'asc'));
+            }, function ($q){
+                $q->orderByDesc('created_at');
+            })
             ->paginate();
 
         $users->appends($filters->valid());
@@ -41,13 +45,20 @@ class UserController extends Controller
         ]);
     }
 
-    public function trashed()
+    public function trashed(Sortable $sortable)
     {
-        $users = User::onlyTrashed()->paginate();
+        $users = User::onlyTrashed()
+            ->when(request('order'), function ($q){
+                $q->orderBy(request('order'), request('direction', 'asc'));
+            }, function ($q){
+                $q->orderByDesc('created_at');
+            })
+            ->paginate();
 
         return view('users.index', [
             'users' => $users,
             'view' => 'trashed',
+            'sortable' => $sortable
         ]);
 
     }

@@ -112,4 +112,112 @@ class ListUsersTest extends TestCase
             ->assertDontSee('Tercer Usuario');
     }
 
+
+    /** @test  */
+
+    function users_are_sorted_by_name()
+    {
+
+        factory(User::class)->create([
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+        ]);
+
+        factory(User::class)->create([
+            'first_name' => 'Richard',
+            'last_name' => 'Roe',
+        ]);
+
+        factory(User::class)->create([
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+        ]);
+
+
+        $this->get('/usuarios?order=first_name&direction=asc')
+            ->assertSeeInOrder([
+                'Jane Doe',
+                'John Doe',
+                'Richard Roe'
+            ]);
+
+        $this->get('/usuarios?order=first_name&direction=desc')
+            ->assertSeeInOrder([
+                'Richard Roe',
+                'John Doe',
+                'Jane Doe',
+            ]);
+    }
+
+    /** @test  */
+
+    function users_are_sorted_by_email()
+    {
+
+        factory(User::class)->create([
+            'email' => 'johndoe@example.com'
+        ]);
+
+        factory(User::class)->create([
+            'email' => 'richardroe@example.com'
+        ]);
+
+        factory(User::class)->create([
+            'email' => 'janedoe@example.com'
+        ]);
+
+
+        $this->get('/usuarios?order=email&direction=asc')
+            ->assertSeeInOrder([
+                'janedoe@example.com',
+                'johndoe@example.com',
+                'richardroe@example.com'
+            ]);
+
+        $this->get('/usuarios?order=email&direction=desc')
+            ->assertSeeInOrder([
+                'richardroe@example.com',
+                'johndoe@example.com',
+                'janedoe@example.com',
+            ]);
+    }
+
+    /** @test  */
+
+    function users_are_sorted_by_register()
+    {
+
+        factory(User::class)->create([
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'created_at' => now()->subDays(2)
+        ]);
+
+        factory(User::class)->create([
+            'first_name' => 'Richard',
+            'last_name' => 'Roe',
+            'created_at' => now()->subDays(3)
+        ]);
+
+        factory(User::class)->create([
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'created_at' => now()->subDays(5)
+        ]);
+
+
+        $this->get('/usuarios?order=created_at&direction=asc')
+            ->assertSeeInOrder([
+                'Jane Doe',
+                'Richard Roe',
+                'John Doe',
+            ]);
+
+        $this->get('/usuarios?order=created_at&direction=desc')
+            ->assertSeeInOrder([
+                'John Doe',
+                'Richard Roe',
+                'Jane Doe',
+            ]);
+    }
 }
