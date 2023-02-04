@@ -7,22 +7,20 @@ use Illuminate\Support\Arr;
 class Sortable
 {
 
-    protected $currentColumn;
-    protected $currentDirection;
     protected $currentUrl;
+    protected $query= [];
 
     public function __construct($currentUrl)
     {
         $this->currentUrl = $currentUrl;
     }
 
-
-    public function setCurrentOrder($order, $direction = 'asc')
+    public function appends(array $query)
     {
-        $this->currentColumn = $order;
-        $this->currentDirection = $direction;
+        $this->query = $query;
 
     }
+
 
     public function classes($column)
     {
@@ -51,12 +49,12 @@ class Sortable
 
     public function buildSortableUrl($column, $direction = 'asc')
     {
-        return $this->currentUrl . '?' . Arr::query(['order' => $column, 'direction' => $direction]);
+        return $this->currentUrl . '?' . Arr::query(array_merge($this->query, ['order' => $column, 'direction' => $direction]));
     }
 
     public function isSortingBy($column, $direction)
     {
-        return $this->currentColumn == $column && $this->currentDirection == $direction;
+        return Arr::get($this->query, 'order') == $column && Arr::get($this->query, 'direction', 'asc') == $direction;
     }
 }
 

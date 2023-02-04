@@ -31,8 +31,8 @@ class UserController extends Controller
 //            ->appends(request(['search']));
 //
 //        $users->load('team', 'skills');
+        $sortable->appends($filters->valid());
 
-        $sortable->setCurrentOrder(request('order'), request('direction'));
 
         return view('users.index', [
             'users' => $users,
