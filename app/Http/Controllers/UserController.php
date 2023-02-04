@@ -18,12 +18,11 @@ class UserController extends Controller
 
         $users = User::query()
             ->with('team', 'skills', 'profile.profession')
-            ->filterBy($filters, $request->only(['state', 'role', 'search', 'skills', 'from', 'to']))
-            ->when(request('order'), function ($q){
-                $q->orderBy(request('order'), request('direction', 'asc'));
-            }, function ($q){
-                $q->orderByDesc('created_at');
-            })
+            ->filterBy($filters, array_merge(
+                ['trashed' => $request->routeIs('users.trashed')],
+                $request->only(['state', 'role', 'search', 'skills', 'from', 'to', 'order', 'direction'])
+            ))
+            ->orderByDesc('created_at')
             ->paginate();
 
         $users->appends($filters->valid());
