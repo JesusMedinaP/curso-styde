@@ -12,7 +12,6 @@ class UserFilter extends QueryFilter
         'date' => 'created_at',
         'login' => 'last_login_at',
         'name' => 'first_name',
-        'emai' => 'email'
     ];
 
     public function rules() : array
@@ -84,7 +83,7 @@ class UserFilter extends QueryFilter
     {
         if(Str::endsWith($value, '-desc'))
         {
-            $query->orderByDesc($this->getColumnName(Str::substr($value, 0, 4)));
+            $query->orderByDesc($this->getColumnName(Str::substr($value, 0, -5)));
         }else{
             $query->orderBy($this->getColumnName($value));
         }
