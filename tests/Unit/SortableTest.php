@@ -78,6 +78,16 @@ class SortableTest extends TestCase
         $this->assertSame('link-sortable link-sorted-down',  $this->sortable->classes('name'));
     }
 
+
+    /** @test  */
+
+    function gets_the_info_about_the_column_name_and_the_other_order_direction()
+    {
+        $this->assertSame(['name', 'asc'], Sortable::info('name'));
+        $this->assertSame(['name', 'desc'], Sortable::info('name-desc'));
+        $this->assertSame(['email', 'desc'], Sortable::info('email-desc'));
+        $this->assertSame(['email', 'asc'], Sortable::info('email'));
+    }
 }
 
 

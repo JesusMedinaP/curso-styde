@@ -259,8 +259,6 @@ class ListUsersTest extends TestCase
                 'Richard Roe',
                 'Jane Doe',
             ]);
-
-
     }
 }
 
