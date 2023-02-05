@@ -20,7 +20,7 @@ class UserController extends Controller
             ->with('team', 'skills', 'profile.profession')
             ->filterBy($filters, array_merge(
                 ['trashed' => $request->routeIs('users.trashed')],
-                $request->only(['state', 'role', 'search', 'skills', 'from', 'to', 'order', 'direction'])
+                $request->only(['state', 'role', 'search', 'skills', 'from', 'to', 'order'])
             ))
             ->orderByDesc('created_at')
             ->paginate();
